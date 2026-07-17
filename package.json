@@ -1,0 +1,12 @@
+{
+  "name": "kenuel-ai",
+  "version": "1.0.0",
+  "description": "KENUEL AI Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
