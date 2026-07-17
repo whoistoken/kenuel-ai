@@ -9,22 +9,31 @@
 <body>
 
     <div class="container">
-        <h1>🤖 KENUEL AI</h1>
+        <!-- Nama KENUEL AI dengan class brand-title agar bisa diberi animasi bergerak di CSS -->
+        <h1 class="brand-title">🤖 KENUEL AI</h1>
         <p>Developer: WhoIsToken</p>
 
+        <!-- Tempat riwayat chat kamu muncul -->
         <div id="chat"></div>
 
-        <input type="text" id="input" placeholder="Tulis pesan...">
-        <button onclick="kirim()">Kirim</button>
+        <!-- Kolom input chat baru dengan tombol upload foto/video -->
+        <div class="input-area">
+            <label for="file-input" class="upload-btn">📁 Kirim Media</label>
+            <input type="file" id="file-input" accept="image/*,video/*" style="display:none;">
+            
+            <input type="text" id="input" placeholder="Tulis pesan atau perintah AI...">
+            <button onclick="prosesPerintahAI()">Kirim</button>
+        </div>
 
+        <!-- Menu tombol fitur AI baru -->
         <div class="menu">
-            <button onclick="alert('Fitur segera hadir')">🎤 Voice AI</button>
-            <button onclick="alert('Fitur segera hadir')">🌙 Dark Mode</button>
-            <button onclick="alert('Fitur segera hadir')">💾 Riwayat</button>
-            <button onclick="alert('Fitur segera hadir')">⚙️ Pengaturan</button>
+            <button onclick="setFitur('hd')">✨ Jernihkan (HD)</button>
+            <button onclick="setFitur('logo')">🎨 Buat Logo</button>
+            <button onclick="setFitur('stiker')">🎭 Buat Stiker</button>
+            <button onclick="alert('Fitur lainnya segera hadir')">⚙️ Pengaturan</button>
         </div>
     </div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
