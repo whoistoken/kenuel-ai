@@ -1,1 +1,144 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
 
+body{
+    background:#0f172a;
+    color:#fff;
+    height:100vh;
+}
+
+.app{
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+}
+
+header{
+    height:65px;
+    background:#111827;
+    border-bottom:1px solid #263244;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:700;
+}
+
+.menu button{
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+    margin-left:10px;
+}
+
+.chat{
+    flex:1;
+    overflow-y:auto;
+    padding:20px;
+}
+
+.user,
+.ai{
+    display:flex;
+    margin-bottom:18px;
+}
+
+.user{
+    justify-content:flex-end;
+}
+
+.avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:10px;
+}
+
+.user .avatar{
+    margin-right:0;
+    margin-left:10px;
+    background:#16a34a;
+}
+
+.bubble{
+    max-width:80%;
+    background:#1e293b;
+    padding:14px 16px;
+    border-radius:14px;
+    line-height:1.6;
+    white-space:pre-wrap;
+}
+
+.user .bubble{
+    background:#2563eb;
+}
+
+footer{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:15px;
+    background:#111827;
+    border-top:1px solid #263244;
+}
+
+.upload{
+    font-size:22px;
+    cursor:pointer;
+}
+
+textarea{
+    flex:1;
+    resize:none;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:#1e293b;
+    color:#fff;
+    padding:12px;
+    font-size:15px;
+    min-height:48px;
+}
+
+#send{
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:50%;
+    background:#2563eb;
+    color:#fff;
+    font-size:20px;
+    cursor:pointer;
+}
+
+#send:hover{
+    background:#1d4ed8;
+}
+
+code{
+    background:#0f172a;
+    padding:3px 6px;
+    border-radius:6px;
+}
+
+pre{
+    background:#0b1220;
+    padding:15px;
+    border-radius:12px;
+    overflow:auto;
+    margin-top:10px;
+}
