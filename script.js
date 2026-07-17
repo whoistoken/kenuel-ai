@@ -1,27 +1,42 @@
-function kirim(){
+function kirim() {
     let input = document.getElementById("input");
     let chat = document.getElementById("chat");
 
-    let pesan = input.value;
+    let pesan = input.value.trim();
 
-    let jawaban = "Saya belum mengerti.";
+    if (pesan === "") return;
 
-    if(pesan.toLowerCase().includes("halo")){
-        jawaban = "Halo juga!";
-    }
+    let jawaban = "Maaf, saya belum mengerti pertanyaan itu.";
 
-    if(pesan.toLowerCase().includes("nama")){
-        jawaban = "Saya KENUEL AI.";
-    }
+    pesan = pesan.toLowerCase();
 
-    if(pesan.toLowerCase().includes("developer")){
+    if (pesan.includes("halo")) {
+        jawaban = "Halo! Saya KENUEL AI 👋";
+    } else if (pesan.includes("nama")) {
+        jawaban = "Nama saya KENUEL AI.";
+    } else if (pesan.includes("developer")) {
         jawaban = "Developer saya adalah WhoIsToken.";
+    } else if (pesan.includes("menu")) {
+        jawaban = `
+🤖 Chat AI
+🎤 Voice AI
+🌙 Dark Mode
+💾 Riwayat Chat
+⚙️ Pengaturan
+📱 APK Android
+`;
+    } else if (pesan.includes("jam")) {
+        jawaban = new Date().toLocaleTimeString("id-ID");
+    } else if (pesan.includes("tanggal")) {
+        jawaban = new Date().toLocaleDateString("id-ID");
     }
 
     chat.innerHTML += `
-        <p><b>Kamu:</b> ${pesan}</p>
+        <p><b>Kamu:</b> ${input.value}</p>
         <p><b>KENUEL AI:</b> ${jawaban}</p>
+        <hr>
     `;
 
-    input.value="";
+    input.value = "";
+    chat.scrollTop = chat.scrollHeight;
 }
