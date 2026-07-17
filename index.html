@@ -1,128 +1,96 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KENUEL AI - Full Fitur</title>
-  <style>
-    body { margin:0; font-family: system-ui, sans-serif; background:#0f0f17; color:#fff; }
-    .chat-container { max-width: 850px; margin:0 auto; height:100vh; display:flex; flex-direction:column; }
-    .header { padding:20px; text-align:center; background:#1a1a2e; border-bottom:1px solid #333; }
-    .chat { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; }
-    .message { max-width:80%; padding:15px 20px; border-radius:20px; line-height:1.5; }
-    .ai { background:#1e2937; align-self:flex-start; }
-    .user { background:#2563eb; align-self:flex-end; margin-left:auto; }
-    .input-area { padding:16px; background:#1a1a2e; border-top:1px solid #333; display:flex; gap:10px; align-items:center; }
-    input { flex:1; padding:16px; border-radius:12px; border:none; background:#111827; color:white; font-size:16px; }
-    button, label { padding:12px 20px; background:#00d4ff; color:black; border:none; border-radius:12px; font-weight:bold; cursor:pointer; }
-    img { max-width:100%; border-radius:15px; margin:8px 0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>KENUEL AI</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 </head>
+
 <body>
-  <div class="chat-container">
-    <div class="header">
-      <h2>🤖 KENUEL AI</h2>
-      <p>Semua Fitur Aktif • WholsToken</p>
-    </div>
-    
-    <div class="chat" id="chat"></div>
-    
-    <div class="input-area">
-      <label>📎
-        <input type="file" id="fileInput" accept="image/*" onchange="handleImageUpload(event)" style="display:none;">
-      </label>
-      <input type="text" id="userInput" placeholder="Tanya apa saja...">
-      <button onclick="sendMessage()">Kirim</button>
-    </div>
-  </div>
 
-  <audio id="bgMusic" loop autoplay style="display:none;">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
+<div class="app">
 
-  <script>
-    let API_KEY = prompt("Masukkan Groq API Key kamu:", "");
+<header>
 
-    const chat = document.getElementById('chat');
+<div class="logo">
+🤖 <span>KENUEL AI</span>
+</div>
 
-    function addMessage(text, role, image = null) {
-      const div = document.createElement('div');
-      div.className = `message ${role}`;
-      div.innerHTML = text;
-      if (image) div.appendChild(image);
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-    }
+<div class="menu">
 
-    // Upload Gambar
-    function handleImageUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
+<button id="clearChat">
+🗑
+</button>
 
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        const img = document.createElement('img');
-        img.src = ev.target.result;
-        addMessage(`📸 <b>Gambar terupload</b>`, 'user', img);
+<button id="theme">
+🌙
+</button>
 
-        setTimeout(() => {
-          addMessage("✨ Gambar diterima! Mau saya analisis, perbaiki, buat stiker, atau generate variasi?", 'ai');
-        }, 800);
-      };
-      reader.readAsDataURL(file);
-    }
+</div>
 
-    // Kirim Pesan Teks
-    async function sendMessage() {
-      const input = document.getElementById('userInput');
-      const message = input.value.trim();
-      if (!message) return;
+</header>
 
-      addMessage(message, 'user');
-      input.value = "";
+<div id="chat" class="chat">
 
-      const loading = document.createElement('div');
-      loading.className = 'message ai';
-      loading.textContent = "KENUEL sedang berpikir...";
-      chat.appendChild(loading);
+<div class="ai">
 
-      try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${API_KEY}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "llama-3.1-70b-versatile",
-            messages: [
-              { role: "system", content: "Kamu adalah KENUEL AI, asisten pintar, ramah, dan helpful buatan WholsToken." },
-              { role: "user", content: message }
-            ],
-            temperature: 0.8,
-            max_tokens: 1000
-          })
-        });
+<div class="avatar">
+🤖
+</div>
 
-        const data = await res.json();
-        loading.remove();
-        addMessage(data.choices[0].message.content, 'ai');
-      } catch (err) {
-        loading.remove();
-        addMessage("Maaf, ada kendala. Coba lagi.", 'ai');
-      }
-    }
+<div class="bubble">
 
-    // Enter key
-    document.getElementById('userInput').addEventListener('keypress', e => {
-      if (e.key === 'Enter') sendMessage();
-    });
+Halo 👋
 
-    window.onload = () => {
-      addMessage("Halo! 👋 Saya KENUEL AI. Bisa chat, upload gambar, dan banyak lagi!", 'ai');
-      document.getElementById('bgMusic').volume = 0.25;
-      document.getElementById('bgMusic').play().catch(()=>{});
-    };
-  </script>
+Saya KENUEL AI.
+
+Ada yang bisa saya bantu?
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+
+<label class="upload">
+
+📎
+
+<input
+type="file"
+id="imageInput"
+accept="image/*"
+hidden>
+
+</label>
+
+<textarea
+id="prompt"
+placeholder="Tulis pesan..."
+rows="1"></textarea>
+
+<button id="send">
+➤
+</button>
+
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
