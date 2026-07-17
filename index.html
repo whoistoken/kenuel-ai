@@ -1,556 +1,109 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KENUEL AI - Asisten Pintar</title>
-    
-    <!-- ==================== STYLE TAMPILAN (CSS) ==================== -->
-    <style>
-        /* Latar Belakang Animasi Gradasi Gelap Bergerak */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(-45deg, #0b0f19, #1a2639, #08121e, #132237);
-            background-size: 400% 400%;
-            animation: gradientBg 12s ease infinite;
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-sizing: border-box;
-            padding: 15px;
-        }
-
-        @keyframes gradientBg {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Wadah Utama Gaya Glassmorphism (Transparan Mewah) */
-        .container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 30px 25px;
-            width: 100%;
-            max-width: 430px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        /* Judul AI Bercahaya Neon Biru */
-        .brand-title {
-            font-size: 2.3rem;
-            font-weight: 800;
-            margin: 5px 0;
-            background: linear-gradient(135deg, #00f2fe, #4facfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.4));
-            letter-spacing: 1px;
-        }
-
-        .subtitle {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 25px;
-            margin-top: 5px;
-        }
-
-        /* Ruang Obrolan Chat */
-        #chat {
-            height: 320px;
-            overflow-y: auto;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 20px;
-            padding-right: 8px;
-            text-align: left;
-        }
-
-        /* Gaya Balon Teks di Chat */
-        #chat p {
-            margin: 12px 0;
-            color: rgba(255, 255, 255, 0.95);
-            line-height: 1.5;
-            font-size: 0.95rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        #chat p b {
-            color: #00f2fe;
-        }
-
-        hr {
-            border: 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            margin: 12px 0;
-        }
-
-        /* Kolom Input & Tombol Upload */
-        .input-area {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            align-items: center;
-            width: 100%;
-        }
-
-        /* Tombol Upload Media */
-        .upload-btn {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 12px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .upload-btn:hover {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: #00f2fe;
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-        }
-
-        /* Kotak Teks Input */
-        #input {
-            flex-grow: 1;
-            padding: 12px 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(0, 0, 0, 0.35);
-            color: #ffffff;
-            outline: none;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-        }
-
-        #input:focus {
-            border-color: #00f2fe;
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
-        }
-
-        /* Tombol Kirim Utama */
-        .send-btn {
-            padding: 12px 22px;
-            border-radius: 12px;
-            border: none;
-            background: linear-gradient(135deg, #0072ff, #00c6ff);
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.3);
-        }
-
-        .send-btn:hover {
-            background: linear-gradient(135deg, #00c6ff, #00f2fe);
-            box-shadow: 0 4px 20px rgba(0, 242, 254, 0.5);
-            transform: translateY(-1px);
-        }
-
-        /* Tombol Fitur Grid Bagian Bawah */
-        .menu {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .menu button {
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.04);
-            color: #ffffff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.88rem;
-            font-weight: 500;
-        }
-
-        .menu button:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: #00f2fe;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 242, 254, 0.15);
-        }
-
-        /* Tombol Hapus Chat Merah */
-        .clear-btn {
-            background: rgba(255, 75, 75, 0.1) !important;
-            border-color: rgba(255, 75, 75, 0.25) !important;
-        }
-
-        .clear-btn:hover {
-            background: rgba(255, 75, 75, 0.25) !important;
-            border-color: #ff4b4b !important;
-            box-shadow: 0 4px 12px rgba(255, 75, 75, 0.2) !important;
-        }
-
-        /* Scrollbar Halus Gaya Dark */
-        #chat::-webkit-scrollbar {
-            width: 5px;
-        }
-        #chat::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.01);
-        }
-        #chat::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KENUEL AI</title>
+  <style>
+    body { margin:0; font-family: system-ui, sans-serif; background:#0f0f17; color:#fff; }
+    .chat-container { max-width: 820px; margin:0 auto; height:100vh; display:flex; flex-direction:column; }
+    .header { padding:20px; text-align:center; background:#1a1a2e; border-bottom:1px solid #333; }
+    .chat { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:16px; }
+    .message { max-width:78%; padding:15px 20px; border-radius:20px; line-height:1.5; }
+    .ai { background:#1e2937; align-self:flex-start; }
+    .user { background:#2563eb; align-self:flex-end; margin-left:auto; }
+    .input-area { padding:16px; background:#1a1a2e; border-top:1px solid #333; display:flex; gap:10px; }
+    input { flex:1; padding:16px; border-radius:12px; border:none; background:#111827; color:white; font-size:16px; }
+    button { padding:0 28px; background:#00d4ff; color:black; border:none; border-radius:12px; font-weight:bold; cursor:pointer; }
+  </style>
 </head>
 <body>
-
-    <div class="container">
-        <!-- Judul AI Modern -->
-        <div class="brand-title">🤖 KENUEL AI</div>
-        <div class="subtitle">Asisten Pintar buatan <b>WhoIsToken</b></div>
-
-        <!-- Ruang Percakapan -->
-        <div id="chat"></div>
-
-        <!-- Input Area & Upload Gambar -->
-        <div class="input-area">
-            <!-- Input File Tersembunyi -->
-            <input type="file" id="file-input" style="display: none;" accept="image/*" onchange="previewFileSelesai()">
-            <!-- Tombol Pilih Gambar -->
-            <label for="file-input" class="upload-btn" id="upload-label">📁 Media</label>
-            
-            <input type="text" id="input" placeholder="Tanya sesuatu..." onkeydown="if(event.key === 'Enter') prosesPerintahAI()">
-            <button class="send-btn" onclick="prosesPerintahAI()">Kirim</button>
-        </div>
-
-        <!-- Tombol Pilihan Menu Cepat -->
-        <div class="menu">
-            <button onclick="setFitur('hd')">✨ Jernihkan (HD)</button>
-            <button onclick="setFitur('logo')">🎨 Buat Logo</button>
-            <button onclick="setFitur('stiker')">🎭 Buat Stiker</button>
-            <button class="clear-btn" onclick="prosesPerintahAI('bersihkan')">🧹 Hapus Chat</button>
-        </div>
+  <div class="chat-container">
+    <div class="header">
+      <h2>🤖 KENUEL AI</h2>
+      <p>Asisten Pintar WholsToken</p>
     </div>
+    
+    <div class="chat" id="chat"></div>
+    
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Tanya sesuatu...">
+      <button onclick="sendMessage()">Kirim</button>
+    </div>
+  </div>
 
-    <!-- ==================== LOGIKA WEB (JAVASCRIPT) ==================== -->
-    <script>
-        // Ambil riwayat chat yang tersimpan saat pertama kali dibuka
-        document.addEventListener("DOMContentLoaded", () => {
-            muatRiwayatChat();
+  <audio id="bgMusic" loop autoplay style="display:none;">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // === MASUKKAN API KEY KAMU DI SINI ===
+    let API_KEY = prompt("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");
+    // =====================================
+
+    const chat = document.getElementById('chat');
+
+    function addMessage(text, role) {
+      const div = document.createElement('div');
+      div.className = `message ${role}`;
+      div.textContent = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      if (!message) return;
+      if (!API_KEY) {
+        API_KEY = prompt("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:");
+        if (!API_KEY) return;
+      }
+
+      addMessage(message, 'user');
+      input.value = "";
+
+      const loading = document.createElement('div');
+      loading.className = 'message ai';
+      loading.textContent = "KENUEL sedang berpikir...";
+      chat.appendChild(loading);
+
+      try {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${API_KEY}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "llama-3.1-70b-versatile",
+            messages: [
+              { role: "system", content: "Kamu adalah KENUEL AI, asisten pintar, ramah, dan sedikit humoris buatan WholsToken. Jawab pakai bahasa Indonesia yang enak dibaca." },
+              { role: "user", content: message }
+            ],
+            temperature: 0.75,
+            max_tokens: 1200
+          })
         });
 
-        let fiturAktif = '';
+        const data = await res.json();
+        loading.remove();
+        addMessage(data.choices[0].message.content, 'ai');
+      } catch (err) {
+        loading.remove();
+        addMessage("Maaf, ada masalah. Cek API Key kamu.", 'ai');
+      }
+    }
 
-        // Simpan chat ke LocalStorage
-        function simpanChat() {
-            const chatBox = document.getElementById("chat");
-            localStorage.setItem("riwayat_chat_kenuel", chatBox.innerHTML);
-        }
+    document.getElementById('userInput').addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
 
-        // Muat chat dari LocalStorage
-        function muatRiwayatChat() {
-            const chatBox = document.getElementById("chat");
-            const dataLama = localStorage.getItem("riwayat_chat_kenuel");
-            if (dataLama) {
-                chatBox.innerHTML = dataLama;
-                chatBox.scrollTop = chatBox.scrollHeight;
-            } else {
-                chatBox.innerHTML = `<p><b>KENUEL AI:</b> Halo! Saya KENUEL AI 👋 Ada yang bisa saya bantu?</p><hr>`;
-            }
-        }
-
-        // Set Fitur yang dipilih user
-        function setFitur(namaFitur) {
-            fiturAktif = namaFitur;
-            let chat = document.getElementById("chat");
-            let pesanFitur = '';
-            
-            if (namaFitur === 'hd') {
-                pesanFitur = "✨ Fitur Jernihkan (HD) aktif! Silakan masukkan foto dari tombol '📁 Media' lalu tekan 'Kirim'.";
-            } else if (namaFitur === 'logo') {
-                pesanFitur = "🎨 Fitur Pembuat Logo aktif! Silakan masukkan foto referensi dari tombol '📁 Media' lalu tekan 'Kirim'.";
-            } else if (namaFitur === 'stiker') {
-                pesanFitur = "🎭 Fitur Pembuat Stiker aktif! Silakan masukkan foto dari tombol '📁 Media' lalu tekan 'Kirim'.";
-            }
-            
-            chat.innerHTML += `
-                <p><b>KENUEL AI:</b> ${pesanFitur}</p>
-                <hr>
-            `;
-            
-            simpanChat();
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        // Beri tanda jika file gambar sudah dipilih
-        function previewFileSelesai() {
-            const fileInput = document.getElementById("file-input");
-            const label = document.getElementById("upload-label");
-            if (fileInput.files.length > 0) {
-                label.innerHTML = "✅ Terpilih";
-                label.style.borderColor = "#00f2fe";
-            }
-        }
-
-        // ==================== ENGINE CANVAS UNTUK PROSES GAMBAR REAL-TIME ====================
-
-        // 1. Fungsi Jernihkan Gambar (Meningkatkan Ketajaman & Contrast)
-        function prosesHD(imgElement, callback) {
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
-            canvas.width = imgElement.naturalWidth;
-            canvas.height = imgElement.naturalHeight;
-            
-            ctx.drawImage(imgElement, 0, 0);
-            
-            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let data = imgData.data;
-            
-            let contrast = 35; // Kekuatan Kontras Gambar
-            let factor = (259 * (contrast + 255)) / (255 * (259 - contrast));
-            
-            for (let i = 0; i < data.length; i += 4) {
-                data[i] = factor * (data[i] - 128) + 128;     // Merah
-                data[i+1] = factor * (data[i+1] - 128) + 128; // Hijau
-                data[i+2] = factor * (data[i+2] - 128) + 128; // Biru
-            }
-            
-            ctx.putImageData(imgData, 0, 0);
-            callback(canvas.toDataURL("image/png"));
-        }
-
-        // 2. Fungsi Buat Logo Lingkaran Mewah
-        function prosesLogo(imgElement, callback) {
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
-            
-            canvas.width = 500;
-            canvas.height = 500;
-            
-            // Background Gradasi Logo
-            let grad = ctx.createLinearGradient(0, 0, 500, 500);
-            grad.addColorStop(0, '#0072ff');
-            grad.addColorStop(1, '#00c6ff');
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 500, 500);
-            
-            // Masking Bulat di Tengah
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(250, 220, 150, 0, Math.PI * 2, true);
-            ctx.closePath();
-            ctx.clip();
-            
-            let size = Math.min(imgElement.naturalWidth, imgElement.naturalHeight);
-            ctx.drawImage(
-                imgElement,
-                (imgElement.naturalWidth - size) / 2, (imgElement.naturalHeight - size) / 2, size, size,
-                100, 70, 300, 300
-            );
-            ctx.restore();
-            
-            // Bingkai Neon Putih
-            ctx.beginPath();
-            ctx.arc(250, 220, 155, 0, Math.PI * 2);
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 8;
-            ctx.stroke();
-            
-            // Tambahkan Teks Logo Keren
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 32px Arial";
-            ctx.textAlign = "center";
-            ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-            ctx.shadowBlur = 4;
-            ctx.fillText("KENUEL AI", 250, 430);
-            
-            ctx.fillStyle = "#ffe600";
-            ctx.font = "italic bold 20px Arial";
-            ctx.fillText("OFFICIAL MASCOT", 250, 465);
-            
-            callback(canvas.toDataURL("image/png"));
-        }
-
-        // 3. Fungsi Buat Efek Stiker (Outline Tebal Putih Menyala)
-        function prosesStiker(imgElement, callback) {
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
-            
-            let padding = 30;
-            canvas.width = imgElement.naturalWidth + padding * 2;
-            canvas.height = imgElement.naturalHeight + padding * 2;
-            
-            // Menghasilkan stroke putih tebal mengitari gambar
-            ctx.shadowColor = "white";
-            ctx.shadowBlur = 18;
-            
-            for(let i=0; i<12; i++) {
-                ctx.drawImage(imgElement, padding, padding);
-            }
-            
-            ctx.shadowBlur = 0;
-            ctx.drawImage(imgElement, padding, padding);
-            
-            callback(canvas.toDataURL("image/png"));
-        }
-
-        // ==================== ENGINE UTAMA AI ====================
-
-        function prosesPerintahAI(opsiSpesial) {
-            let input = document.getElementById("input");
-            let chat = document.getElementById("chat");
-            let fileInput = document.getElementById("file-input");
-            let label = document.getElementById("upload-label");
-            
-            // Pembersihan Chat Instan
-            if (opsiSpesial === 'bersihkan') {
-                localStorage.removeItem("riwayat_chat_kenuel");
-                chat.innerHTML = `<p><b>KENUEL AI:</b> Riwayat obrolan telah dibersihkan!</p><hr>`;
-                input.value = "";
-                if (fileInput) fileInput.value = "";
-                label.innerHTML = "📁 Media";
-                label.style.borderColor = "rgba(255, 255, 255, 0.15)";
-                return;
-            }
-
-            let pesan = input.value.trim();
-            let fileObj = fileInput ? fileInput.files[0] : null;
-
-            if (pesan === "" && !fileObj) return;
-
-            let jawaban = "Maaf, saya belum mengerti pertanyaan itu.";
-            let pesanLower = pesan.toLowerCase();
-
-            // Tampilkan Teks Chat Pengguna
-            if (pesan !== "") {
-                chat.innerHTML += `<p><b>Kamu:</b> ${input.value}</p>`;
-            }
-
-            // Memproses Foto Menggunakan Fitur Terpilih
-            if (fileObj) {
-                let linkFotoTemp = URL.createObjectURL(fileObj);
-                
-                chat.innerHTML += `
-                    <p><b>Kamu:</b> 📁 Mengirim Media: ${fileObj.name}</p>
-                    <div style="text-align: left; margin: 10px 0;">
-                        <img src="${linkFotoTemp}" style="max-width: 100%; max-height: 180px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2);" alt="Preview">
-                    </div>
-                `;
-                chat.scrollTop = chat.scrollHeight;
-
-                let imgLoader = new Image();
-                imgLoader.src = linkFotoTemp;
-                imgLoader.onload = function() {
-                    
-                    if (fiturAktif === 'hd') {
-                        chat.innerHTML += `<p><b>KENUEL AI:</b> Menjernihkan gambar kamu secara real-time... ⏳</p>`;
-                        chat.scrollTop = chat.scrollHeight;
-                        
-                        prosesHD(imgLoader, (hasilHD) => {
-                            chat.innerHTML += `
-                                <p><b>KENUEL AI:</b> ✨ Sukses! Gambar kamu sekarang jauh lebih jernih (HD):</p>
-                                <div style="text-align: left; margin: 10px 0;">
-                                    <img src="${hasilHD}" style="max-width: 100%; max-height: 250px; border-radius: 12px; border: 2px solid #00c6ff;" alt="Hasil HD">
-                                    <br><a href="${hasilHD}" download="kenuel-hd.png" style="color: #00f2fe; text-decoration: none; font-size: 0.95rem; font-weight: bold; display: inline-block; margin-top: 8px;">📥 Download Hasil HD</a>
-                                </div>
-                                <hr>
-                            `;
-                            simpanChat();
-                            chat.scrollTop = chat.scrollHeight;
-                        });
-
-                    } else if (fiturAktif === 'logo') {
-                        chat.innerHTML += `<p><b>KENUEL AI:</b> Membuat desain logo profesional dari fotomu... ⏳</p>`;
-                        chat.scrollTop = chat.scrollHeight;
-                        
-                        prosesLogo(imgLoader, (hasilLogo) => {
-                            chat.innerHTML += `
-                                <p><b>KENUEL AI:</b> 🎨 Sukses! Logo kustom bermaskot kamu telah dibuat:</p>
-                                <div style="text-align: left; margin: 10px 0;">
-                                    <img src="${hasilLogo}" style="max-width: 100%; max-height: 250px; border-radius: 15px; border: 2px solid #0072ff;" alt="Hasil Logo">
-                                    <br><a href="${hasilLogo}" download="kenuel-logo.png" style="color: #0072ff; text-decoration: none; font-size: 0.95rem; font-weight: bold; display: inline-block; margin-top: 8px;">📥 Download Logo</a>
-                                </div>
-                                <hr>
-                            `;
-                            simpanChat();
-                            chat.scrollTop = chat.scrollHeight;
-                        });
-
-                    } else if (fiturAktif === 'stiker') {
-                        chat.innerHTML += `<p><b>KENUEL AI:</b> Memotong background dan membuat stiker... ⏳</p>`;
-                        chat.scrollTop = chat.scrollHeight;
-                        
-                        prosesStiker(imgLoader, (hasilStiker) => {
-                            chat.innerHTML += `
-                                <p><b>KENUEL AI:</b> 🎭 Sukses! Stiker siap pakai dengan outline putih tebal berhasil dibuat:</p>
-                                <div style="text-align: left; margin: 10px 0; background: rgba(255,255,255,0.08); padding: 15px; border-radius: 12px; display: inline-block;">
-                                    <img src="${hasilStiker}" style="max-width: 150px;" alt="Hasil Stiker">
-                                    <br><a href="${hasilStiker}" download="kenuel-stiker.png" style="color: #ffe600; text-decoration: none; font-size: 0.95rem; font-weight: bold; display: inline-block; margin-top: 8px;">📥 Download Stiker</a>
-                                </div>
-                                <hr>
-                            `;
-                            simpanChat();
-                            chat.scrollTop = chat.scrollHeight;
-                        });
-
-                    } else {
-                        chat.innerHTML += `<p><b>KENUEL AI:</b> Foto berhasil diunggah! Silakan pilih salah satu tombol fitur di bawah (HD, Logo, atau Stiker) agar saya tahu cara memprosesnya.</p><hr>`;
-                        simpanChat();
-                        chat.scrollTop = chat.scrollHeight;
-                    }
-                };
-
-                // Reset label upload
-                input.value = "";
-                if (fileInput) fileInput.value = "";
-                label.innerHTML = "📁 Media";
-                label.style.borderColor = "rgba(255, 255, 255, 0.15)";
-                return;
-            } 
-            // Memproses input teks obrolan AI biasa
-            else {
-                if (pesanLower.includes("halo") || pesanLower.includes("hay") || pesanLower.includes("hi") || pesanLower.includes("p")) {
-                    jawaban = "Halo! Saya KENUEL AI 👋 Ada yang bisa saya bantu hari ini?";
-                } else if (pesanLower.includes("nama") || pesanLower.includes("siapa")) {
-                    jawaban = "Nama saya adalah KENUEL AI, asisten pintar buatan WhoIsToken.";
-                } else if (pesanLower.includes("developer") || pesanLower.includes("pembuat")) {
-                    jawaban = "Developer saya adalah WhoIsToken.";
-                } else if (pesanLower.includes("menu") || pesanLower.includes("fitur")) {
-                    jawaban = `
-                        Berikut adalah menu fitur saya:<br>
-                        🤖 Chat AI (Tanya jawab bebas)<br>
-                        ✨ Jernihkan (Meningkatkan kualitas foto jadi HD)<br>
-                        🎨 Buat Logo (Mengubah foto contoh menjadi logo maskot)<br>
-                        🎭 Buat Stiker (Memotong & memberi outline stiker tebal)<br>
-                        🧹 Klik tombol 'Hapus Chat' untuk membersihkan riwayat obrolan.
-                    `;
-                } else if (pesanLower.includes("jam")) {
-                    jawaban = "Saat ini pukul: " + new Date().toLocaleTimeString("id-ID");
-                } else if (pesanLower.includes("tanggal")) {
-                    jawaban = "Hari ini tanggal: " + new Date().toLocaleDateString("id-ID");
-                }
-            }
-
-            // Tampilkan Balasan AI
-            chat.innerHTML += `
-                <p><b>KENUEL AI:</b> ${jawaban}</p>
-                <hr>
-            `;
-
-            input.value = "";
-            simpanChat();
-            chat.scrollTop = chat.scrollHeight;
-        }
-    </script>
+    window.onload = () => {
+      addMessage("Halo bos! 👋 Saya KENUEL AI. Siap bantu kamu!", 'ai');
+      document.getElementById('bgMusic').volume = 0.25;
+      document.getElementById('bgMusic').play().catch(()=>{});
+    };
+  </script>
 </body>
 </html>
